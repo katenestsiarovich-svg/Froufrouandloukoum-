@@ -70,6 +70,16 @@ header{
   text-transform:lowercase;
   white-space:nowrap;
   padding-left:.3em;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:.55em;
+}
+.mark{
+  width:auto;
+  height:1.5em;
+  flex:none;
+  display:block;
 }
 .icon{width:20px;height:20px;stroke:var(--ink);stroke-width:1.1;fill:none}
 .cart-btn{position:relative}
@@ -475,7 +485,7 @@ footer .fine{font-size:.68rem;letter-spacing:.05em;line-height:1.9}
         <svg class="icon" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
       </button>
     </div>
-    <a href="#" class="wordmark">froufrou&nbsp;and&nbsp;loukoum</a>
+    <a href="#" class="wordmark"><img src="logo.svg" alt="" class="mark">froufrou&nbsp;and&nbsp;loukoum</a>
     <div class="bar-right">
       <button id="cartOpen" class="cart-btn" aria-label="Open bag">
         <svg class="icon" viewBox="0 0 24 24"><path d="M5 8h14l1 12H4L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
