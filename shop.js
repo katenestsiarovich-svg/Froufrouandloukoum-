@@ -1,6 +1,6 @@
 /* shop logic — you shouldn't need to edit this file */
 
-const EMAIL = "hello@froufrouandloukoum.com";
+const EMAIL = "kate.nestsiarovich@gmail.com";
 const money = n => "€" + n.toLocaleString("en-GB");
 
 let cart = [];
@@ -11,10 +11,24 @@ let filter = "all";
 /* ── grid ── */
 function renderGrid() {
   const list = filter === "all" ? PRODUCTS : PRODUCTS.filter(p => p.category === filter);
-  document.getElementById("grid").innerHTML = list.map(p => `
+  const grid = document.getElementById("grid");
+
+  if (!list.length) {
+    grid.classList.add("is-empty");
+    grid.innerHTML = `<div class="grid-empty">
+      <span class="caps">Coming soon</span>
+      <p>The first pieces are being finished now.<br>
+      Write to us if you'd like to be told when they arrive.</p>
+      <a href="mailto:${EMAIL}" class="caps">Get in touch</a>
+    </div>`;
+    return;
+  }
+
+  grid.classList.remove("is-empty");
+  grid.innerHTML = list.map(p => `
     <article class="card" data-id="${p.id}" tabindex="0" role="button">
       <div class="card-img">
-        <img src="images/${p.images[0]}" alt="${p.name}" loading="lazy">
+        <img src="${p.images[0]}" alt="${p.name}" loading="lazy">
         <div class="slip">
           <span>Cat. <b>${p.id.slice(0, 3).toUpperCase()}</b> · ${p.year}</span>
           <span>Made to order · <b>${p.origin}</b></span>
@@ -31,7 +45,7 @@ function openProduct(id) {
   currentSize = null;
   document.getElementById("pName").textContent = current.name;
   document.getElementById("pPrice").textContent = money(current.price);
-  document.getElementById("pMain").src = "images/" + current.images[0];
+  document.getElementById("pMain").src = current.images[0];
   document.getElementById("pMain").alt = current.name;
   document.getElementById("pDesc").innerHTML = `<p>${current.description}</p>`;
   document.getElementById("pComp").innerHTML = `<p>${current.composition}</p>`;
@@ -39,7 +53,7 @@ function openProduct(id) {
 
   document.getElementById("pThumbs").innerHTML = current.images.map((img, i) =>
     `<button class="${i === 0 ? "on" : ""}" data-img="${img}" aria-label="View image ${i + 1}">
-       <img src="images/${img}" alt=""></button>`).join("");
+       <img src="${img}" alt=""></button>`).join("");
 
   document.getElementById("pSizes").innerHTML = current.sizes.map(s =>
     `<button data-size="${s}">${s}</button>`).join("");
@@ -74,7 +88,7 @@ function renderCart() {
 
   box.innerHTML = cart.map((it, i) => `
     <div class="ci">
-      <div class="ci-img"><img src="images/${it.img}" alt=""></div>
+      <div class="ci-img"><img src="${it.img}" alt=""></div>
       <div>
         <h4>${it.name}</h4>
         <div class="meta">Size ${it.size}</div>
@@ -127,7 +141,7 @@ document.addEventListener("click", e => {
 
   const thumb = e.target.closest("[data-img]");
   if (thumb) {
-    document.getElementById("pMain").src = "images/" + thumb.dataset.img;
+    document.getElementById("pMain").src = thumb.dataset.img;
     document.querySelectorAll("#pThumbs button").forEach(b => b.classList.remove("on"));
     thumb.classList.add("on");
     return;
